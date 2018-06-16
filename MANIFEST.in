@@ -1,0 +1,4 @@
+include *.md
+include *.py
+include LICENSE
+recursive-include src/airthings-mqtt *.py *.md LICENSE
