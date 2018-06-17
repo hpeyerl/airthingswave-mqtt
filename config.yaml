@@ -2,5 +2,8 @@ mqtt:
   broker: 192.168.34.118
   port: 1883
 
-basement:
-  mac_addr: 98:07:2d:43:4d:8e
+waves:
+  - name: "basement"
+    addr: 98:07:2d:43:4d:8e
+  - name: "upstairs"
+    addr: 98:07:2d:43:4d:8f
