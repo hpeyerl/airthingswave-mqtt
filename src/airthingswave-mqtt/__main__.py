@@ -19,7 +19,7 @@ def main():
     count=len(atw.waves)
     if count > 0:
         iter=0
-	while iter<count:
+        while iter<count:
             print(atw.waves[iter]["name"], atw.waves[iter]["addr"])
             handle = atw.ble_connect(atw.waves[iter]["addr"])
             r = atw.get_readings(handle)

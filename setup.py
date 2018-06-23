@@ -6,9 +6,9 @@ from setuptools import setup, find_packages
 
 ###################################################################
 
-NAME = "AirthingsWave-MQTT"
+NAME = "airthingswave-mqtt"
 PACKAGES = find_packages(where="src")
-META_PATH = os.path.join("src", "airthings-mqtt", "__init__.py")
+META_PATH = os.path.join("src", "airthingswave-mqtt", "__init__.py")
 KEYWORDS = ['radon', 'mqtt']
 CLASSIFIERS = [
         "Intended Audience :: Developers",
@@ -22,8 +22,8 @@ CLASSIFIERS = [
         "License :: OSI Approved :: MIT License",
 ]
 INSTALL_REQUIRES = [
-        "bluepy=1.1.4",
-	"paho-mqtt=1.3.1",
+        "bluepy>=1.1.4",
+        "paho-mqtt>=1.3.1"
 ]
 
 ###################################################################

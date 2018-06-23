@@ -74,12 +74,12 @@ class AirthingsWave_mqtt:
         return True
 
     def mqtt_connect(self, conf):
-	self.mqtt_conf=self.config["mqtt"]
-	self.mqtt_client.connect(self.mqtt_conf["broker"], self.mqtt_conf["port"])
+        self.mqtt_conf=self.config["mqtt"]
+        self.mqtt_client.connect(self.mqtt_conf["broker"], self.mqtt_conf["port"])
 
     def ble_connect(self, addr):
-	p = Peripheral(addr)
-	return p
+        p = Peripheral(addr)
+        return p
 
     def ble_disconnect(self, p):
        p.disconnect()
@@ -99,7 +99,7 @@ class AirthingsWave_mqtt:
                     readings[s.name] = str(datetime(val[0], val[1], val[2], val[3], val[4], val[5]))
                 else:
                     readings[s.name] = str(val[0] * s.scale)
-	
+
         return readings
 
     def publish_readings(self, name, readings):
