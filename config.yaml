@@ -1,6 +1,6 @@
 mqtt:
-  broker: 192.168.34.118
-  port: 1883
+  - broker: 192.168.34.118
+    port: 1883
 
 waves:
   - name: "basement"
