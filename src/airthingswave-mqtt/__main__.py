@@ -6,7 +6,7 @@ import time
 def usage():
     print("Usage: {0} <config file>".format(sys.argv[0]))
 
-def test():
+def main():
     if len(sys.argv) < 2:
         usage()
         return False
@@ -21,9 +21,12 @@ def test():
         iter=0
 	while iter<count:
             print(atw.waves[iter]["name"], atw.waves[iter]["addr"])
-            bqm3, temp, humidity, date = atw.get_reading(atw.waves[iter]["addr"])
-            print("{0} says {1}, {2}, {3}, {4}".format(atw.waves[iter]["name"],date, temp, humidity, bqm3))
+            handle = atw.ble_connect(atw.waves[iter]["addr"])
+            r = atw.get_readings(handle)
+            atw.ble_disconnect(handle)
+            print("{0} says Date: {1} Temp: {2} Humidity: {3} 24H: {4} Long term: {5}".format(atw.waves[iter]["name"],r["DateTime"],r["Temperature"], r["Humidity"], r["Radon-Day"], r["Radon-Long-Term"], ))
+            atw.publish_readings(atw.waves[iter]["name"], r)
             iter = iter+1
     return True
 
-test()
+main()
