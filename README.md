@@ -1,8 +1,9 @@
 # Get Readings from an Airthings Wave and publish to MQTT server
 
-[Airthings](http://airthings.com) makes a BTLE Radon detector called "Wave". This is both an API and a daemon that will periodically publish a a reading to an MQTT server.
+[Airthings](http://airthings.com) makes a BTLE Radon detector called "Wave". This is an executable intended to be called periodically from Cron or some other scheduler to publish readings to an MQTT server.
 
 ## Limitations
+## API
 
 ```Python
 class AirthingsWave:
@@ -10,6 +11,3 @@ class AirthingsWave:
 ```
 
 Class instantiation requires a path to a config file in YAML format.
-
-## API
-
