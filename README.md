@@ -38,7 +38,7 @@ Then you can:
     def publish_readings(self, name, readings):
 ```
 
-###Example
+## Example
 
 From __main__.py:
 ```python
