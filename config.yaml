@@ -1,5 +1,5 @@
 mqtt:
-  - broker: 192.168.34.118
+    broker: 192.168.34.118
     port: 1883
 
 waves:
