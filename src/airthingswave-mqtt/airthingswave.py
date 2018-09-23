@@ -75,6 +75,8 @@ class AirthingsWave_mqtt:
 
     def mqtt_connect(self, conf):
         self.mqtt_conf=self.config["mqtt"]
+        if self.mqtt_conf["username"] is not None:
+            self.mqtt_client.username_pw_set(self.mqtt_conf["username"], self.mqtt_conf["password"])
         self.mqtt_client.connect(self.mqtt_conf["broker"], self.mqtt_conf["port"])
 
     def ble_connect(self, addr):
