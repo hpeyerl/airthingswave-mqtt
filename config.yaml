@@ -1,6 +1,8 @@
 mqtt:
     broker: 192.168.34.118
     port: 1883
+#    username: ""
+#    password: ""
 
 waves:
   - name: "basement-radon"
