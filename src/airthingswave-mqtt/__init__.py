@@ -1,6 +1,6 @@
 import sys
 
-__version__ = "0.1"
+__version__ = "0.2"
 
 __uri__ = 'https://github.com/hpeyerl/AirthingsWave-mqtt'
 __title__ = "AirthingsWave"
