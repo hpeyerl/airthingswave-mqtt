@@ -1,5 +1,3 @@
-import sys
-
 __version__ = "0.2"
 
 __uri__ = 'https://github.com/hpeyerl/AirthingsWave-mqtt'
@@ -12,6 +10,5 @@ __license__ = "MIT"
 
 __copyright__ = "Copyright (c) 2017 Herb Peyerl"
 
-from .airthingswave import AirthingsWave_mqtt
-
-if __name__ == '__main__': print(__version__)
+if __name__ == '__main__':
+    print(__version__)

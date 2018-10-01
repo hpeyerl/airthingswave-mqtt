@@ -23,7 +23,8 @@ CLASSIFIERS = [
 ]
 INSTALL_REQUIRES = [
         "bluepy>=1.1.4",
-        "paho-mqtt>=1.3.1"
+        "paho-mqtt>=1.3.1",
+        "PyYAML>=3.12"
 ]
 
 ###################################################################
@@ -69,6 +70,7 @@ if __name__ == "__main__":
         maintainer_email=find_meta("email"),
         keywords=KEYWORDS,
         long_description=read("README.md"),
+        long_description_content_type="text/markdown",
         packages=PACKAGES,
         package_dir={"": "src"},
         zip_safe=False,

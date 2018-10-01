@@ -19,6 +19,8 @@ Class instantiation requires a path to a config file in YAML format.
 mqtt:
   broker: 192.168.30.18
   port: 1883
+  username: 
+  password: 
 
 waves:
   - name: "basement-radon"
@@ -28,32 +30,33 @@ waves:
 Before taking a reading, you should:
 
 ```
-    def ble_connect(self, addr):
+def ble_connect(self, addr):
 ```
 
 Then you can:
 
 ```
-    def get_readings(self, p):
-    def publish_readings(self, name, readings):
+def get_readings(self, p):
+def publish_readings(self, name, readings):
 ```
 
 ## Example
 
-From __main__.py:
+From \__main\__.py:
 ```python
-    c = sys.argv[1]
+c = sys.argv[1]
 
-    atw=airthingswave.AirthingsWave_mqtt(c)
+atw = airthingswave.AirthingsWave_mqtt(c)
 
-    count=len(atw.waves)
-    if count > 0:
-        iter=0
-        while iter<count:
-            handle = atw.ble_connect(atw.waves[iter]["addr"])
-            r = atw.get_readings(handle)
-            atw.ble_disconnect(handle)
-            atw.publish_readings(atw.waves[iter]["name"], r)
-            iter = iter+1
-    return True
+count = len(atw.waves)
+if count > 0:
+    i = 0
+    while i < count:
+        handle = atw.ble_connect(atw.waves[i]["addr"])
+        r = atw.get_readings(handle)
+        atw.ble_disconnect(handle)
+        atw.publish_readings(atw.waves[i]["name"], r)
+        i = i+1
+
+return True
 ```
