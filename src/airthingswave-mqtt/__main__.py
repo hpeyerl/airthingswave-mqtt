@@ -1,10 +1,11 @@
 from __future__ import print_function
-import os,sys
-import airthingswave
-import time
+import sys
+from . import airthingswave
+
 
 def usage():
     print("Usage: {0} <config file>".format(sys.argv[0]))
+
 
 def main():
     if len(sys.argv) < 2:
@@ -14,19 +15,21 @@ def main():
     c = sys.argv[1]
     print ("Config file: {0}".format(c))
 
-    atw=airthingswave.AirthingsWave_mqtt(c)
+    atw = airthingswave.AirthingsWave_mqtt(c)
 
-    count=len(atw.waves)
+    count = len(atw.waves)
     if count > 0:
-        iter=0
-        while iter<count:
-            print(atw.waves[iter]["name"], atw.waves[iter]["addr"])
-            handle = atw.ble_connect(atw.waves[iter]["addr"])
+        i = 0
+        while i < count:
+            print(atw.waves[i]["name"], atw.waves[i]["addr"])
+            handle = atw.ble_connect(atw.waves[i]["addr"])
             r = atw.get_readings(handle)
             atw.ble_disconnect(handle)
-            print("{0} says Date: {1} Temp: {2} Humidity: {3} 24H: {4} Long term: {5}".format(atw.waves[iter]["name"],r["DateTime"],r["Temperature"], r["Humidity"], r["Radon-Day"], r["Radon-Long-Term"], ))
-            atw.publish_readings(atw.waves[iter]["name"], r)
-            iter = iter+1
+            print("{0} says Date: {1} Temp: {2} Humidity: {3} 24H: {4} Long term: {5}".format(atw.waves[i]["name"], r["DateTime"], r["Temperature"], r["Humidity"], r["Radon-Day"], r["Radon-Long-Term"], ))
+            atw.publish_readings(atw.waves[i]["name"], r)
+            i = i+1
+
     return True
+
 
 main()
