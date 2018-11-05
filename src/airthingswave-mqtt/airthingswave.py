@@ -58,6 +58,9 @@ class AirthingsWave_mqtt:
         self.sensors.append(Sensor("Radon-Day", "b42e01aa-ade7-11e4-89d3-123b93f75cba", 'H', "Bq/m3\t", 1.0))
         self.sensors.append(Sensor("Radon-Long-Term", "b42e0a4c-ade7-11e4-89d3-123b93f75cba", 'H', "Bq/m3\t", 1.0))
 
+    def __del__(self):
+        self.mqtt_disconnect()
+
     def check_config(self, conf):
         if "mqtt" not in conf:
             return False
@@ -78,6 +81,9 @@ class AirthingsWave_mqtt:
         if self.mqtt_conf["username"]:
             self.mqtt_client.username_pw_set(self.mqtt_conf["username"], self.mqtt_conf["password"])
         self.mqtt_client.connect(self.mqtt_conf["broker"], self.mqtt_conf["port"])
+
+    def mqtt_disconnect(self):
+        self.mqtt_client.disconnect()
 
     def ble_connect(self, addr):
         p = Peripheral(addr)
@@ -109,6 +115,7 @@ class AirthingsWave_mqtt:
             topic = "{0}/{1}".format(name, s.name)
             payload = "{0}".format(readings[s.name])
             print("{0} / {1}".format(topic, payload))
-            self.mqtt_client.publish(topic, payload, retain=False)
+            msg_info = self.mqtt_client.publish(topic, payload, retain=False)
+            msg_info.wait_for_publish()
             # Mosquitto doesn't seem to get messages published back to back
             time.sleep(0.1)
