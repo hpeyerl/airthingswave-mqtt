@@ -6,6 +6,8 @@
 
 This application doesn't implement 'find' as provided in the example at https://airthings.com/raspberry-pi/
 
+This is just a python API with a main loop that I happen to use in my own Home-Assistant setup. If you're looking for a plug and play solution, consider [balena-airthingswave](https://github.com/renemarc/balena-airthingswave) - @renemarc has created his appliance package using airthingswave-mqtt.
+
 ## API
 
 ```Python
