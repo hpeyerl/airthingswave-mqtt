@@ -45,7 +45,7 @@ class Sensor:
 class AirthingsWave_mqtt:
     def __init__(self, config_file):
         with open(config_file, 'r') as f:
-            self.config = yaml.load(f)
+            self.config = yaml.load(f, Loader=yaml.SafeLoader)
         self.waves = list()
         if self.check_config(self.config):
             self.mqtt_client = mqtt.Client()
