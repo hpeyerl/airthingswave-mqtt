@@ -80,7 +80,7 @@ class AirthingsWave_mqtt:
         self.mqtt_conf = conf["mqtt"]
         if self.mqtt_conf["username"]:
             self.mqtt_client.username_pw_set(self.mqtt_conf["username"], self.mqtt_conf["password"])
-        self.mqtt_client.connect(self.mqtt_conf["broker"], self.mqtt_conf["port"])
+        self.mqtt_client.connect(self.mqtt_conf["broker"], int(self.mqtt_conf["port"]))
 
     def mqtt_disconnect(self):
         self.mqtt_client.disconnect()
