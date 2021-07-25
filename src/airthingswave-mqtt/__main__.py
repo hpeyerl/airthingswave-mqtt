@@ -22,9 +22,7 @@ def main():
         i = 0
         while i < count:
             print(atw.waves[i]["name"], atw.waves[i]["addr"])
-            handle = atw.ble_connect(atw.waves[i]["addr"])
-            r = atw.get_readings(handle)
-            atw.ble_disconnect(handle)
+            r = atw.get_readings(i)
             print("{0} says Date: {1} Temp: {2} Humidity: {3} 24H: {4} Long term: {5}".format(atw.waves[i]["name"], r["DateTime"], r["Temperature"], r["Humidity"], r["Radon-Day"], r["Radon-Long-Term"], ))
             atw.publish_readings(atw.waves[i]["name"], r)
             i = i+1

@@ -51,6 +51,10 @@ class AirthingsWave_mqtt:
             self.mqtt_client = mqtt.Client()
             self.mqtt_connect(self.config)
         self.mqtt_conf = []
+
+        # These are only used for the wave version 1 devices. The code for the version 2 devices hard-codes the order
+        # of these sensors when it outputs device readings, so update the V2 order in get_readings_v2() if changing
+        # the list of sensors here.
         self.sensors = []
         self.sensors.append(Sensor("DateTime", UUID(0x2A08), 'HBBBBB', "\t", 0))
         self.sensors.append(Sensor("Temperature", UUID(0x2A6E), 'h', "deg C\t", 1.0/100.0))
@@ -72,6 +76,8 @@ class AirthingsWave_mqtt:
             for wave in conf["waves"]:
                 if "addr" in wave and "name" in wave:
                     self.waves.append(wave)
+                    if "version" not in wave:
+                        self.waves[-1]["version"] = 1
                 else:
                     print("Malformed config item: {0}".format(wave))
         return True
@@ -95,7 +101,17 @@ class AirthingsWave_mqtt:
     #
     # Given a peripheral handle, populate readings for that peripheral
     #
-    def get_readings(self, p):
+    def get_readings(self, i):
+        readings = dict()
+        handle = self.ble_connect(self.waves[i]["addr"])
+        if self.waves[i]["version"] == 1:
+            readings = self.get_readings_v1(handle)
+        elif self.waves[i]["version"] == 2:
+            readings = self.get_readings_v2(handle)
+        self.ble_disconnect(handle)
+        return readings
+
+    def get_readings_v1(self, p):
         readings = dict()
         for s in self.sensors:
             ch = p.getCharacteristics(uuid=s.uuid)[0]
@@ -106,6 +122,25 @@ class AirthingsWave_mqtt:
                     readings[s.name] = str(datetime(val[0], val[1], val[2], val[3], val[4], val[5]))
                 else:
                     readings[s.name] = str(val[0] * s.scale)
+
+        return readings
+
+    def get_readings_v2(self, p):
+        readings = dict()
+
+        # The V2 waves return all sensor readings as a single characteristic
+        ch = p.getCharacteristics(uuid=UUID("b42e4dcc-ade7-11e4-89d3-123b93f75cba"))[0]
+        val = ch.read()
+        data = struct.unpack("<4B8H", val)
+
+        if data[0] != 1:
+            raise ValueError("Unsupported version from wave device (Expected 1, got{})".format(data[0]))
+
+        readings["DateTime"] = str(datetime.now())
+        readings["Temperature"] = str(data[6]/100.0)
+        readings["Humidity"] = str(data[1]/2.0)
+        readings["Radon-Day"] = str(data[4])
+        readings["Radon-Long-Term"] = str(data[5])
 
         return readings
 
